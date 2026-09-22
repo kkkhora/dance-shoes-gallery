@@ -239,9 +239,6 @@
             margin-top: 10px;
             text-align: center;
         }
-        .hidden {
-            display: none;
-        }
     </style>
 </head>
 <body>
@@ -252,8 +249,8 @@
     
     <div class="filters">
         <button class="filter-btn active" onclick="filterCategory('all')">All Products</button>
-        <button class="filter-btn" onclick="filterCategory('lead')">Lead Shoes</button>
         <button class="filter-btn" onclick="filterCategory('heels')">Heels & Follow Shoes</button>
+        <button class="filter-btn" onclick="filterCategory('lead')">Lead Shoes</button>
         <button class="filter-btn" onclick="filterCategory('sneakers')">Dance Sneakers</button>
     </div>
     
@@ -310,15 +307,17 @@
             container.innerHTML = '';
             
             // Group by category
-            const byCategory = {'lead': [], 'heels': [], 'sneakers': []};
+            const byCategory = {'heels': [], 'lead': [], 'sneakers': []};
             filtered.forEach(p => {
                 if (byCategory[p.category]) {
                     byCategory[p.category].push(p);
                 }
             });
             
+            // Define order for displaying categories
+            const categoryOrder = ['heels', 'lead', 'sneakers'];
             const categoriesToShow = currentCategory === 'all' 
-                ? Object.keys(byCategory).filter(cat => byCategory[cat].length > 0)
+                ? categoryOrder.filter(cat => byCategory[cat].length > 0)
                 : [currentCategory];
             
             categoriesToShow.forEach(category => {
