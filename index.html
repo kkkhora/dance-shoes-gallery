@@ -530,5 +530,39 @@ ${items.join('\n')}`;
         
         renderGallery();
     </script>
-</body>
-</html>
+
+
+<!-- Image Modal Lightbox -->
+<div id="imageModal" style="display:none; position:fixed; z-index:2000; left:0; top:0; width:100%; height:100%; background-color:rgba(0,0,0,0.9); padding:20px;">
+    <span style="position:absolute; top:20px; right:40px; color:white; font-size:40px; font-weight:bold; cursor:pointer; user-select:none;" onclick="closeImageModal()">&times;</span>
+    <img id="modalImage" src="" alt="Product" style="max-width:90%; max-height:90%; display:block; margin:auto; object-fit:contain;">
+</div>
+
+<script>
+function openImageModal(src) {
+    document.getElementById('modalImage').src = src;
+    document.getElementById('imageModal').style.display = 'flex';
+    document.getElementById('imageModal').style.alignItems = 'center';
+    document.getElementById('imageModal').style.justifyContent = 'center';
+    document.body.style.overflow = 'hidden';
+}
+
+function closeImageModal() {
+    document.getElementById('imageModal').style.display = 'none';
+    document.body.style.overflow = 'auto';
+}
+
+document.getElementById('imageModal').addEventListener('click', function(e) {
+    if (e.target.id === 'imageModal') {
+        closeImageModal();
+    }
+});
+
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && document.getElementById('imageModal').style.display !== 'none') {
+        closeImageModal();
+    }
+});
+</script>
+
+</body></html>
