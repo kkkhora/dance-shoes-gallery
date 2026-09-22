@@ -414,7 +414,7 @@
                             <div class="product-number">Product ${product.number}</div>
                             <div class="size-selector">
                                 <label>Size:</label>
-                                <input type="text" class="size-input" placeholder="e.g., 35, 36, 37...">
+                                <input type="text" class="size-input" placeholder="e.g. US 6, 8">
                             </div>
                             <div class="quantity-selector">
                                 <label>Qty:</label>
@@ -433,7 +433,9 @@
                     });
                     
                     const img = div.querySelector('.product-img');
-                    img.addEventListener('click', () => {
+                    img.style.cursor = 'pointer';
+                    img.addEventListener('click', (e) => {
+                        e.stopPropagation();
                         openImageModal(img.src);
                     });
                     
