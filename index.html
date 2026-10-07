@@ -118,15 +118,46 @@
         .product-header {
             position: relative;
         }
-        .product input[type="checkbox"] {
-            position: absolute;
-            top: 10px;
-            left: 10px;
+        .select-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 10px;
+            margin-bottom: 10px;
+            background: #f1f8f1;
+            border: 1px solid #cfe8cf;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            color: #2e7d32;
+            user-select: none;
+        }
+        .select-row input[type="checkbox"] {
             width: 20px;
             height: 20px;
             cursor: pointer;
-            z-index: 10;
+            margin: 0;
         }
+        .item-actions {
+            display: flex;
+            gap: 6px;
+            margin-top: 12px;
+        }
+        .item-actions button {
+            flex: 1;
+            padding: 8px 6px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            color: white;
+            transition: background 0.2s;
+        }
+        .item-actions .item-generate { background: #4CAF50; }
+        .item-actions .item-generate:hover { background: #45a049; }
+        .item-actions .item-deselect { background: #9e9e9e; }
+        .item-actions .item-deselect:hover { background: #757575; }
         .product-img {
             width: 100%;
             height: 200px;
@@ -302,6 +333,7 @@
         }
         .size-selector input {
             flex: 1;
+            min-width: 0;
             padding: 5px;
             border: 1px solid #ddd;
             border-radius: 4px;
@@ -325,7 +357,6 @@
     
     <div class="controls">
         <input type="text" id="searchInput" placeholder="Search by product number">
-        <button onclick="selectAll()">Select All</button>
         <button onclick="deselectAll()">Deselect All</button>
         <button onclick="generateList()">Generate List</button>
     </div>
@@ -406,10 +437,13 @@
                     div.className = 'product';
                     div.innerHTML = `
                         <div class="product-header">
-                            <input type="checkbox" class="product-checkbox" value="${product.id}">
                             <img src="${product.image}" alt="Product ${product.number}" class="product-img">
                         </div>
                         <div class="product-info">
+                            <label class="select-row">
+                                <input type="checkbox" class="product-checkbox" value="${product.id}">
+                                Select
+                            </label>
                             <div class="product-category">${getCategoryName(product.category)}</div>
                             <div class="product-number">Product ${product.number}</div>
                             <div class="size-selector">
@@ -419,6 +453,10 @@
                             <div class="quantity-selector">
                                 <label>Qty:</label>
                                 <input type="number" class="quantity-input" value="1" min="1" max="999">
+                            </div>
+                            <div class="item-actions">
+                                <button type="button" class="item-generate" onclick="generateList()">Generate List</button>
+                                <button type="button" class="item-deselect" onclick="deselectAll()">Deselect All</button>
                             </div>
                         </div>
                     `;
@@ -463,13 +501,6 @@
             currentSearch = e.target.value.trim();
             renderGallery();
         });
-        
-        function selectAll() {
-            document.querySelectorAll('.product-checkbox').forEach(cb => {
-                cb.checked = true;
-                cb.closest('.product').classList.add('selected');
-            });
-        }
         
         function deselectAll() {
             document.querySelectorAll('.product-checkbox').forEach(cb => {
